@@ -82,5 +82,8 @@ int main(void) {
 
 	print_summary();
 
+	char dest[50];  // ✅ Allocate space on the stack
+	char src[] = "fdsfsdfsdfsdfsdfsd";
+	printf("dest: %s\n", ft_strcpy(dest, src));
 	return (g_tests_failed == 0) ? 0 : 1;
 }

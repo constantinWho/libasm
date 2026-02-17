@@ -4,7 +4,7 @@ NASM		= nasm
 NASMFLAGS	= -f elf64
 CFLAGS		= -Wall -Wextra -Werror
 
-SRCS		= ft_strlen.s
+SRCS		= ft_strlen.s ft_strcpy.s
 
 OBJS		= $(SRCS:.s=.o)
 
