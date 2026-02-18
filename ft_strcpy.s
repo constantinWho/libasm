@@ -6,12 +6,11 @@ ft_strcpy:
 	mov rax, rdi
 	xor rcx, rcx
 
-.loop
-	movzx rdx, byte [rsi + rcx]
-	mov [rdi + rcx], dl
-	inc rcx
-	test dl, dl
+.loop:
+	mov cl, [rsi]
+	mov [rdi], cl
+	inc rsi
+	inc rdi
+	test cl, cl
 	jnz .loop
-
-.done:
 	ret

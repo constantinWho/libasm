@@ -1,31 +1,34 @@
 #include "libasm.h"
 
-#define RED "\033[0;31m"
-#define GREEN "\033[0;32m"
-#define YELLOW "\033[0;33m"
-#define BLUE "\033[0;36m"
-#define RESET "\033[0m"
+static void test_strcpy_case(const char *src) {
+	char ft_dest[300];
+	char libc_dest[300];
 
-static int g_tests_passed = 0;
-static int g_tests_failed = 0;
+	ft_strcpy(ft_dest, src);
+	strcpy(libc_dest, src);
 
-static void print_header(const char *title) {
-	printf("\n%s========================================%s\n", BLUE, RESET);
-	printf("%s  %s%s\n", BLUE, title, RESET);
-	printf("%s========================================%s\n\n", BLUE, RESET);
+	if (strcmp(ft_dest, libc_dest) == 0) {
+		printf("%s✓%s ft_strcpy(\"%s\") = \"%s\"\n", GREEN, RESET,
+			ft_dest, ft_dest);
+		g_tests_passed++;
+	} else {
+		printf("%s✗%s ft_strcpy(\"%s\"): expected %s, got %s\n", RED, RESET,
+			libc_dest, libc_dest, ft_dest);
+		g_tests_failed++;
+	}
 }
 
 static void test_strlen_case(const char *str) {
-	size_t ft_result = ft_strlen(str);
-	size_t libc_result = strlen(str);
+	size_t ft_res = ft_strlen(str);
+	size_t libc_res = strlen(str);
 
-	if (ft_result == libc_result) {
+	if (ft_res == libc_res) {
 		printf("%s✓%s ft_strlen(\"%s\") = %zu\n", GREEN, RESET,
-			str ? str : "(null)", ft_result);
+			str ? str : "(null)", ft_res);
 		g_tests_passed++;
 	} else {
 		printf("%s✗%s ft_strlen(\"%s\"): expected %zu, got %zu\n", RED, RESET,
-			str ? str : "(null)", libc_result, ft_result);
+			str ? str : "(null)", libc_res, ft_res);
 		g_tests_failed++;
 	}
 }
@@ -33,57 +36,23 @@ static void test_strlen_case(const char *str) {
 static void test_strlen(void) {
 	print_header("TESTING FT_STRLEN");
 
-	// Basic tests
-	test_strlen_case("Hello, World!");
-	test_strlen_case("test");
-	test_strlen_case("");
-	test_strlen_case("a");
-	test_strlen_case("42");
-
-	// Longer strings
-	test_strlen_case("This is a longer string to test the function");
-	test_strlen_case("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
-
-	// Special characters
-	test_strlen_case("Hello\nWorld");
-	test_strlen_case("Tab\there");
-	test_strlen_case("Special chars: !@#$%^&*()");
-
-	// Unicode/UTF-8 (byte count, not character count)
-	test_strlen_case("Hello 世界");
-	test_strlen_case("émojis: 🚀🔥");
+	for (int i = 0; i < 12; i++) {
+		test_strlen_case(test_cases[i]);
+	}
 }
 
-static void print_summary(void) {
-	int total = g_tests_passed + g_tests_failed;
+static void test_strcpy(void) {
+	print_header("TESTING FT_STRCPY");
 
-	printf("\n%s========================================%s\n", BLUE, RESET);
-	printf("%s  TEST SUMMARY%s\n", BLUE, RESET);
-	printf("%s========================================%s\n", BLUE, RESET);
-	printf("Total tests: %d\n", total);
-	printf("%sPassed: %d%s\n", GREEN, g_tests_passed, RESET);
-	if (g_tests_failed > 0)
-		printf("%sFailed: %d%s\n", RED, g_tests_failed, RESET);
-	else
-		printf("Failed: 0\n");
-
-	if (g_tests_failed == 0)
-		printf("\n%s🎉 All tests passed!%s\n\n", GREEN, RESET);
-	else
-		printf("\n%s⚠️  Some tests failed%s\n\n", YELLOW, RESET);
+	for (int i = 0; i < 12; i++) {
+		test_strcpy_case(test_cases[i]);
+	}
 }
 
 int main(void) {
-	printf("\n%s╔════════════════════════════════════════╗%s\n", BLUE, RESET);
-	printf("%s║      LIBASM TESTER                     ║%s\n", BLUE, RESET);
-	printf("%s╚════════════════════════════════════════╝%s\n", BLUE, RESET);
-
+	print_start();
 	test_strlen();
-
-	print_summary();
-
-	char dest[50];  // ✅ Allocate space on the stack
-	char src[] = "fdsfsdfsdfsdfsdfsd";
-	printf("dest: %s\n", ft_strcpy(dest, src));
+	test_strcpy();
+	print_end();
 	return (g_tests_failed == 0) ? 0 : 1;
 }

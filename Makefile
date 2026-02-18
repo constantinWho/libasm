@@ -2,11 +2,13 @@ NAME		= libasm.a
 CC			= cc
 NASM		= nasm
 NASMFLAGS	= -f elf64
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror -g
 
 SRCS		= ft_strlen.s ft_strcpy.s
 
 OBJS		= $(SRCS:.s=.o)
+
+TEST_OBJS	= global.c print_utils.c main.c
 
 all: $(NAME)
 
@@ -17,7 +19,7 @@ $(NAME): $(OBJS)
 	$(NASM) $(NASMFLAGS) $< -o $@
 
 test: $(NAME)
-	$(CC) $(CFLAGS) main.c -L. -lasm -o test
+	$(CC) $(CFLAGS) $(TEST_OBJS) -L. -lasm -o test
 	./test
 
 clean:
