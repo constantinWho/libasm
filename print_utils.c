@@ -21,7 +21,7 @@ void print_end(void) {
 	int total = g_tests_passed + g_tests_failed;
 
 	printf("\n%s========================================%s\n", BLUE, RESET);
-	printf("%s             TEST SUMMARY             %s\n", BLUE, RESET);
+	printf("%s              TEST SUMMARY              %s\n", BLUE, RESET);
 	printf("%s========================================%s\n", BLUE, RESET);
 	printf("Total tests: %d\n", total);
 	printf("%sPassed: %d%s\n", GREEN, g_tests_passed, RESET);

@@ -3,6 +3,7 @@ CC			= cc
 NASM		= nasm
 NASMFLAGS	= -f elf64
 CFLAGS		= -Wall -Wextra -Werror -g
+NOPIE		= -no-pie
 
 SRCS		= ft_strlen.s ft_strcpy.s
 
@@ -19,7 +20,7 @@ $(NAME): $(OBJS)
 	$(NASM) $(NASMFLAGS) $< -o $@
 
 test: $(NAME)
-	$(CC) $(CFLAGS) $(TEST_OBJS) -L. -lasm -o test
+	$(CC) $(CFLAGS) $(TEST_OBJS) -L. -lasm $(NOPIE) -o test
 	./test
 
 clean:
