@@ -5,7 +5,7 @@ NASMFLAGS	= -f elf64
 CFLAGS		= -Wall -Wextra -Werror -g
 NOPIE		= -no-pie
 
-SRCS		= ft_strlen.s ft_strcpy.s ft_strcmp.s
+SRCS		= ft_strlen.s ft_strcpy.s ft_strcmp.s ft_write.s
 
 OBJS		= $(SRCS:.s=.o)
 
