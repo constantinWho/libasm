@@ -49,6 +49,24 @@ static void test_strcmp_case_eq(const char *src) {
 	}
 }
 
+
+static void test_strcmp_case_neq(const char *s1, const char *s2) {
+	int ft_res;
+	int libc_res;
+
+	ft_res = ft_strcmp(s1, s2);
+	libc_res = strcmp(s1, s2);
+	printf("	s1: \"%s\", \n\ts2: \"%s\"\n", s1, s2);
+	if (ft_res == libc_res) {
+		printf("%s✓%s ft_strcmp: %d, strcmp: %d\n", GREEN, RESET, ft_res, libc_res);
+		g_tests_passed++;
+	} else {
+		printf("%s✗%s expected %d, got %d\n", RED, RESET,
+			libc_res, ft_res);
+		g_tests_failed++;
+	}
+}
+
 static void test_strlen(void) {
 	print_header("TESTING FT_STRLEN");
 
@@ -71,6 +89,11 @@ static void test_strcmp(void) {
 	printf("%ss1==s2%s\n\n", YELLOW, RESET);
 	for (int i = 0; i < 12; i++) {
 		test_strcmp_case_eq(test_cases[i]);
+	}
+
+	printf("\n%ss1!=s2%s\n\n", YELLOW, RESET);
+	for (int i = 0; i < 12; i++) {
+		test_strcmp_case_neq(test_cases[i], test_cases[(i == 11) ? 0 : (i + 1)]);
 	}
 }
 
