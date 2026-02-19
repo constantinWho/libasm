@@ -16,6 +16,7 @@ ft_strcmp:
 	cmp rax, 0 ;check if dest[i] == 0
 	je .equal
 	inc rcx
+	inc rcx
 	jmp .loop
 
 .diff:
