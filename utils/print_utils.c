@@ -1,4 +1,4 @@
-#include "libasm.h"
+#include "../include/libasm.h"
 
 void print_header(const char *title) {
 	printf("\n%s========================================%s\n", BLUE, RESET);

@@ -28,6 +28,13 @@ void print_test_result(void);
 void print_end(void);
 void print_start(void);
 
+// TESTS
+void test_strlen(void);
+void test_strcpy(void);
+void test_strcmp(void);
+void test_write(void);
+
+
 // GLOBAL VARS
 extern int g_tests_passed;
 extern int g_tests_failed;

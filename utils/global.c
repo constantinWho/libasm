@@ -1,4 +1,4 @@
-#include "libasm.h"
+#include "../include/libasm.h"
 
 int g_tests_passed = 0;
 int g_tests_failed = 0;

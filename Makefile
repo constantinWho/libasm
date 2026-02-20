@@ -4,12 +4,16 @@ NASM		= nasm
 NASMFLAGS	= -f elf64
 CFLAGS		= -Wall -Wextra -Werror -g
 NOPIE		= -no-pie
-
-SRCS		= ft_strlen.s ft_strcpy.s ft_strcmp.s ft_write.s
+SRCS		= ./asm_funcs/ft_strlen.s ./asm_funcs/ft_strcpy.s \
+			./asm_funcs/ft_strcmp.s ./asm_funcs/ft_write.s
 
 OBJS		= $(SRCS:.s=.o)
-
-TEST_OBJS	= global.c print_utils.c main.c
+TEST_OBJS	= main.c \
+			./utils/global.c ./utils/print_utils.c \
+			./tests/test_strlen.c \
+			./tests/test_strcpy.c \
+			./tests/test_strcmp.c \
+			./tests/test_write.c
 
 all: $(NAME)
 
