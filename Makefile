@@ -3,7 +3,7 @@ CC			= cc
 NASM		= nasm
 NASMFLAGS	= -f elf64
 CFLAGS		= -Wall -Wextra -Werror -g
-NOPIE		= -no-pie
+NOPIE		= -no-pie #Just means that the assigment of memory would be liniar
 SRCS		= ./asm_funcs/ft_strlen.s ./asm_funcs/ft_strcpy.s \
 			./asm_funcs/ft_strcmp.s ./asm_funcs/ft_write.s
 
