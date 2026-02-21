@@ -21,12 +21,14 @@ size_t	ft_strlen(const char *s);
 char	*ft_strcpy(char *dest, const char *src);
 int		ft_strcmp(const char *s1, const char *s2);
 ssize_t ft_write(int fd, const void *buf, size_t count);
+ssize_t ft_read(int fd, const void *buf, size_t count);
 
 // PRINT_UTILS
 void print_header(const char *title);
 void print_test_result(void);
 void print_end(void);
 void print_start(void);
+void test_read(void);
 
 // TESTS
 void test_strlen(void);

@@ -1,6 +1,6 @@
 global ft_write
 
-extern __errno_location
+extern __errno_location ; sharing the pointer to the location of the program.
 
 section .text
 
@@ -15,8 +15,9 @@ ft_write:
 	neg rax ;beacause kernel has returned a negative value, we have to make it positive
 	push rax ;saving the value on the stack so it does not get overwritten
 	call __errno_location wrt ..plt ;wrt = with respect to, ..plt = procedures linkage table
-	pop rcx
-	mov [rax], rcx 
-	mov rax, -1
+									;after rax would poit to memory adress of errno
+	pop rcx ;save the value of rax we saved on stack
+	mov [rax], rcx ;move the value to the address of where rax points
+	mov rax, -1 ;overwritte the rax
 	ret
 

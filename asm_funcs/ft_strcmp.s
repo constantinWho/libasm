@@ -25,4 +25,3 @@ ft_strcmp:
 .equal:
 	xor rax, rax
 	ret
-
