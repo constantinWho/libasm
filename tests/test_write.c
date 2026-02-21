@@ -1,12 +1,7 @@
 #include "../include/libasm.h"
 
-static void valid_fd_test(void)
-{
-	int ft_ret;
-	int libc_ret;
-	int saved_errno_ft;
-	int saved_errno_libc;
-
+static void valid_fd_test(int ft_ret, int saved_errno_ft,
+					int libc_ret, int saved_errno_libc) {
 	printf("%sfd == 1%s\n\n", YELLOW, RESET);
 	for (int i = 0; i < 12; i++) {
 		errno = 0;
@@ -31,8 +26,7 @@ static void valid_fd_test(void)
 }
 
 static void run_test(const char *label, int ft_ret, int saved_errno_ft,
-					int libc_ret, int saved_errno_libc, int expect_neg_one)
-{
+					int libc_ret, int saved_errno_libc, int expect_neg_one) {
 	printf("%s%s%s\n", YELLOW, label, RESET);
 	if (expect_neg_one) {
 		if (ft_ret == -1 && libc_ret == -1 && saved_errno_ft == saved_errno_libc) {
@@ -59,18 +53,8 @@ static void run_test(const char *label, int ft_ret, int saved_errno_ft,
 	}
 }
 
-void test_write(void)
-{
-	print_header("TESTING FT_WRITE");
-
-	int ft_ret;
-	int libc_ret;
-	int saved_errno_ft;
-	int saved_errno_libc;
-
-	valid_fd_test();
-
-	/* fd == -1 */
+static void neg_fd_test(int ft_ret, int saved_errno_ft,
+					int libc_ret, int saved_errno_libc) {
 	errno = 0;
 	ft_ret = ft_write(-1, "test", 4);
 	saved_errno_ft = errno;
@@ -78,8 +62,10 @@ void test_write(void)
 	libc_ret = write(-1, "test", 4);
 	saved_errno_libc = errno;
 	run_test("fd == -1", ft_ret, saved_errno_ft, libc_ret, saved_errno_libc, 1);
+}
 
-	/* Write 0 bytes */
+static void write_zero_bytes_test(int ft_ret, int saved_errno_ft,
+					int libc_ret, int saved_errno_libc) {
 	errno = 0;
 	ft_ret = ft_write(1, "test", 0);
 	saved_errno_ft = errno;
@@ -87,8 +73,10 @@ void test_write(void)
 	libc_ret = write(1, "test", 0);
 	saved_errno_libc = errno;
 	run_test("write 0 bytes", ft_ret, saved_errno_ft, libc_ret, saved_errno_libc, 0);
+}
 
-	/* NULL pointer */
+static void null_ptr_test(int ft_ret, int saved_errno_ft,
+					int libc_ret, int saved_errno_libc) {
 	errno = 0;
 	ft_ret = ft_write(1, NULL, 5);
 	saved_errno_ft = errno;
@@ -96,8 +84,10 @@ void test_write(void)
 	libc_ret = write(1, NULL, 5);
 	saved_errno_libc = errno;
 	run_test("NULL pointer", ft_ret, saved_errno_ft, libc_ret, saved_errno_libc, 1);
+}
 
-	/* Closed fd */
+static void closed_fd_test(int ft_ret, int saved_errno_ft,
+					int libc_ret, int saved_errno_libc) {
 	int fd = open("/tmp/test_ft_write", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	close(fd);
 	errno = 0;
@@ -108,8 +98,10 @@ void test_write(void)
 	saved_errno_libc = errno;
 	run_test("closed fd", ft_ret, saved_errno_ft, libc_ret, saved_errno_libc, 1);
 	unlink("/tmp/test_ft_write");
+}
 
-	/* Large write (10000 bytes) */
+static void large_write_test(int ft_ret, int saved_errno_ft,
+					int libc_ret, int saved_errno_libc) {
 	char *large_buf = malloc(10000);
 	memset(large_buf, 'A', 10000);
 	int pipefd[2];
@@ -126,6 +118,21 @@ void test_write(void)
 	close(pipefd[1]);
 	free(large_buf);
 	run_test("large write (10000 bytes)", ft_ret, saved_errno_ft, libc_ret, saved_errno_libc, 0);
+}
+
+void test_write(void) {
+	int ft_ret = 0;
+	int libc_ret = 0;
+	int saved_errno_ft = 0;
+	int saved_errno_libc = 0;
+	
+	print_header("TESTING FT_WRITE");
+	valid_fd_test(ft_ret, saved_errno_ft, libc_ret, saved_errno_libc);
+	neg_fd_test(ft_ret, saved_errno_ft, libc_ret, saved_errno_libc);
+	write_zero_bytes_test(ft_ret, saved_errno_ft, libc_ret, saved_errno_libc);
+	null_ptr_test(ft_ret, saved_errno_ft, libc_ret, saved_errno_libc);
+	closed_fd_test(ft_ret, saved_errno_ft, libc_ret, saved_errno_libc);
+	large_write_test(ft_ret, saved_errno_ft, libc_ret, saved_errno_libc);
 
 	printf("\n");
 }
