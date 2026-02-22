@@ -22,6 +22,7 @@ char	*ft_strcpy(char *dest, const char *src);
 int		ft_strcmp(const char *s1, const char *s2);
 ssize_t ft_write(int fd, const void *buf, size_t count);
 ssize_t ft_read(int fd, const void *buf, size_t count);
+char    *ft_strdup(const char *s);
 
 // PRINT_UTILS
 void print_header(const char *title);
@@ -29,6 +30,7 @@ void print_test_result(void);
 void print_end(void);
 void print_start(void);
 void test_read(void);
+void test_strdup(void);
 
 // TESTS
 void test_strlen(void);
